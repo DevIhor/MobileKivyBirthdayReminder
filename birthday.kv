@@ -1,0 +1,50 @@
+#:import Window kivy.core.window.Window
+#:import IconLeftWidget kivymd.uix.list.IconLeftWidget
+
+
+<ItemBackdropFrontLayer@TwoLineAvatarListItem>
+    icon: "android"
+
+    IconLeftWidget:
+        icon: root.icon
+
+
+<BirthdaysBackdropLayer@ItemBackdropFrontLayer>
+    backdrop: None
+    text: "Lower the front layer"
+    secondary_text: " by 50 %"
+    icon: "transfer-down"
+    on_press: root.backdrop.open(-Window.height / 2)
+    pos_hint: {"top": 1}
+    _no_ripple_effect: True
+
+
+<AgeBackdropLayer@BoxLayout>
+    id: age_backdrop
+    size_hint: .8, .8
+    orientation: "vertical"
+    pos_hint: {"center_x": .5, "center_y": .6}
+
+    MDLabel:
+        id: age_label
+        text: "dsfgsdg"
+        font_style: "H1"
+        halign: "center"
+
+<AgeBackdrop>
+
+    MDBackdrop:
+        id: backdrop
+        left_action_items: [['menu', lambda x: self.open()]]
+        title: "Your age"
+        radius_left: "25dp"
+        radius_right: "0dp"
+        header_text: "Birthdays:"
+
+        MDBackdropBackLayer:
+            AgeBackdropLayer:
+                id: backlayer
+
+        MDBackdropFrontLayer:
+            BirthdaysBackdropLayer:
+                backdrop: backdrop
