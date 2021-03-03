@@ -2,6 +2,20 @@
 #:import IconLeftWidget kivymd.uix.list.IconLeftWidget
 
 
+ScreenManager:
+    AgeBackdrop:
+    SetAgeScreen:
+
+<SetAgeScreen@Screen>:
+    name: 'set_age'
+
+    BoxLayout:
+        Button:
+            text: 'Back'
+            on_press: app.root.current = 'main'
+        Button:
+            text: 'Quit'
+
 <ItemBackdropFrontLayer@TwoLineAvatarListItem>
     icon: "android"
 
@@ -11,9 +25,9 @@
 
 <BirthdaysBackdropLayer@ItemBackdropFrontLayer>
     backdrop: None
-    text: "Lower the front layer"
-    secondary_text: " by 50 %"
-    icon: "transfer-down"
+    text: "Ivan Lutsiuk"
+    secondary_text: "04.07.1990"
+    icon: "cake-variant"
     on_press: root.backdrop.open(-Window.height / 2)
     pos_hint: {"top": 1}
     _no_ripple_effect: True
@@ -26,16 +40,25 @@
     pos_hint: {"center_x": .5, "center_y": .6}
 
     MDLabel:
-        id: age_label
-        text: "dsfgsdg"
-        font_style: "H1"
+        id: age
+        text: "You haven't set your birthday yet!"
+        font_style: "H2"
         halign: "center"
 
-<AgeBackdrop>
+    MDRectangleFlatButton:
+        text: "SET"
+        text_color: rgba("#ffffff")
+        line_color: rgba("#ffffff")
+        pos_hint: {"center_x": .5, "center_y": .6}
+        on_release:
+            app.root.current = 'set_age'
+
+<AgeBackdrop@Screen>
+    name: 'main'
 
     MDBackdrop:
         id: backdrop
-        left_action_items: [['menu', lambda x: self.open()]]
+        left_action_items: [['transfer-down', lambda x: self.open()]]
         title: "Your age"
         radius_left: "25dp"
         radius_right: "0dp"
@@ -48,3 +71,9 @@
         MDBackdropFrontLayer:
             BirthdaysBackdropLayer:
                 backdrop: backdrop
+
+    MDFloatingActionButton:
+        icon: "account-plus"
+        md_bg_color: app.theme_cls.primary_color
+        text_color: rgba("#ffffff")
+        pos_hint: {"center_x": .90, "center_y": .05}
