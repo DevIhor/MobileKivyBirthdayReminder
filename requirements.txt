@@ -3,7 +3,7 @@ chardet==4.0.0
 docutils==0.16
 idna==2.10
 Kivy==2.0.0
-kivymd==0.104.1
+git+https://github.com/kivymd/KivyMD.git
 Pillow==8.1.0
 Pygments==2.7.4
 requests==2.25.1

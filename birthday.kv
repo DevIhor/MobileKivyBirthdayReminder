@@ -1,36 +1,57 @@
 #:import Window kivy.core.window.Window
-#:import IconLeftWidget kivymd.uix.list.IconLeftWidget
 
 
 ScreenManager:
     AgeBackdrop:
-    SetAgeScreen:
+    AddBirthdayScreen:
 
-<SetAgeScreen@Screen>:
-    name: 'set_age'
+<AddBirthdayScreen@Screen>:
+    name: 'add_birthday'
 
-    BoxLayout:
-        Button:
+    MDBoxLayout:
+        orientation: "vertical"
+        halign: "center"
+
+        MDToolbar:
+            title: "Add new person"
+        MDTextField:
+            id: name
+            hint_text: "Name"
+        MDTextField:
+            id: surname
+            hint_text: "Surname"
+        MDRaisedButton:
+            text: "Set Birthday"
+            text_color: rgba("#ffffff")
+            line_color: rgba("#ffffff")
+            on_release: root.show_date_picker()
+        MDRaisedButton:
+            text: "Save"
+            text_color: rgba("#00ff00")
+            line_color: rgba("#00ff00")
+            on_release:
+                root.on_save()
+                app.root.current = 'main'
+        MDRaisedButton:
             text: 'Back'
-            on_press: app.root.current = 'main'
-        Button:
-            text: 'Quit'
+            text_color: rgba("#ff0000")
+            line_color: rgba("#ff0000")
+            on_release:
+                app.root.current = 'main'
+
 
 <ItemBackdropFrontLayer@TwoLineAvatarListItem>
-    icon: "android"
+    text: ""
+    secondary_text: ""
 
     IconLeftWidget:
-        icon: root.icon
+        icon: "cake-variant"
 
 
-<BirthdaysBackdropLayer@ItemBackdropFrontLayer>
-    backdrop: None
-    text: "Ivan Lutsiuk"
-    secondary_text: "04.07.1990"
-    icon: "cake-variant"
-    on_press: root.backdrop.open(-Window.height / 2)
-    pos_hint: {"top": 1}
-    _no_ripple_effect: True
+<BirthdaysBackdropLayer@BoxLayout>
+    ScrollView:
+        MDList:
+            id: scroll
 
 
 <AgeBackdropLayer@BoxLayout>
@@ -45,13 +66,13 @@ ScreenManager:
         font_style: "H2"
         halign: "center"
 
-    MDRectangleFlatButton:
+    MDRaisedButton:
+        id: change_age_btn
         text: "SET"
         text_color: rgba("#ffffff")
         line_color: rgba("#ffffff")
         pos_hint: {"center_x": .5, "center_y": .6}
-        on_release:
-            app.root.current = 'set_age'
+        on_release: root.show_date_picker()
 
 <AgeBackdrop@Screen>
     name: 'main'
@@ -70,10 +91,12 @@ ScreenManager:
 
         MDBackdropFrontLayer:
             BirthdaysBackdropLayer:
-                backdrop: backdrop
+                id: frontlayer
 
     MDFloatingActionButton:
         icon: "account-plus"
         md_bg_color: app.theme_cls.primary_color
         text_color: rgba("#ffffff")
         pos_hint: {"center_x": .90, "center_y": .05}
+        on_release:
+            app.root.current = 'add_birthday'
