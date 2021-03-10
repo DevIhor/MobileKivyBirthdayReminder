@@ -5,39 +5,75 @@ ScreenManager:
     AgeBackdrop:
     AddBirthdayScreen:
 
-<AddBirthdayScreen@Screen>:
+<AddBirthdayScreen@MDScreen>:
     name: 'add_birthday'
 
-    MDBoxLayout:
-        orientation: "vertical"
-        halign: "center"
+    MDToolbar:
+        id: toolbar
+        title: "Add new person"
+        elevation: 10
+        pos_hint: {'top': 1}
 
-        MDToolbar:
-            title: "Add new person"
+    BoxLayout:
+        orientation: "vertical"
+        size_hint_y: None
+        height: Window.height - toolbar.height
+        spacing: dp(10)
+        padding: "25dp", "10dp", "25dp", 0
+        adaptive_size: True
+
         MDTextField:
             id: name
+            mode: "rectangle"
             hint_text: "Name"
+            required: True
+            helper_text_mode: "on_error"
+            helper_text: "Enter name"
+
         MDTextField:
             id: surname
+            mode: "rectangle"
             hint_text: "Surname"
-        MDRaisedButton:
-            text: "Set Birthday"
-            text_color: rgba("#ffffff")
-            line_color: rgba("#ffffff")
-            on_release: root.show_date_picker()
-        MDRaisedButton:
-            text: "Save"
-            text_color: rgba("#00ff00")
-            line_color: rgba("#00ff00")
-            on_release:
-                root.on_save()
-                app.root.current = 'main'
-        MDRaisedButton:
-            text: 'Back'
-            text_color: rgba("#ff0000")
-            line_color: rgba("#ff0000")
-            on_release:
-                app.root.current = 'main'
+            required: True
+            helper_text_mode: "on_error"
+            helper_text: "Enter surname"
+
+        MDGridLayout:
+            size_hint: 1, None
+            cols: 1
+            padding: "-10dp", 0, "-10dp", 0
+
+            MDRaisedButton:
+                text: "Set Birthday"
+                text_color: rgba("#ffffff")
+                line_color: rgba("#ffffff")
+                on_release: root.show_date_picker()
+                size_hint: 1, None
+
+        MDGridLayout:
+            size_hint: 1, None
+            cols: 2
+            spacing: Window.width - back_btn.width - save_btn.width - dp(30)
+            padding: "-10dp", 0, "-10dp", 0
+
+            MDRaisedButton:
+                id: back_btn
+                text: 'Back'
+                text_color: rgba("#ff0000")
+                line_color: rgba("#ff0000")
+                on_release:
+                    app.root.current = 'main'
+
+            MDRaisedButton:
+                id: save_btn
+                text: "Save"
+                text_color: rgba("#00ff00")
+                line_color: rgba("#00ff00")
+                on_release:
+                    root.on_save()
+                    app.root.current = 'main'
+
+        Widget:
 
 
 <ItemBackdropFrontLayer@TwoLineAvatarListItem>

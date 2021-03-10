@@ -5,20 +5,20 @@ from kivy.core.window import Window
 from kivy.properties import StringProperty
 from kivy.storage.jsonstore import JsonStore
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.screenmanager import Screen
 from kivymd.app import MDApp
 from kivymd.uix.list import TwoLineAvatarListItem
 from kivymd.uix.picker import MDDatePicker
+from kivymd.uix.screen import MDScreen
 
 from settings import Settings
 
-# Window.size = (360, 780)
 from utils import calculate_age
 
+# Window.size = (360, 780)
 Window.size = (400, 780)
 
 
-class AddBirthdayScreen(Screen):
+class AddBirthdayScreen(MDScreen):
     def __init__(self, **kwargs):
         super(AddBirthdayScreen, self).__init__(**kwargs)
         self.store = JsonStore("data/data.json")
@@ -35,7 +35,6 @@ class AddBirthdayScreen(Screen):
         self.person["surname"] = self.ids.surname.text
         self.people.append(self.person)
         self.store.put("others", people=self.people)
-        pass
 
     def on_date_dialog_save(self, instance, value, date_range):
         self.person["year"] = value.year
